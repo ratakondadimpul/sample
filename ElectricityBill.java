@@ -23,6 +23,10 @@ public class ElectricityBill{
     }
 
     public static Boolean ck(String s){
+        if(s.isEmpty()){
+            System.out.println("Units should not be empty.");
+            return false;
+        }
         for(char i :s.toCharArray()){
             if(!Character.isDigit(i)){
                 return false;
@@ -32,13 +36,25 @@ public class ElectricityBill{
     }
     public static void main(String[] args){
         Scanner sc=new Scanner(System.in);
-        System.out.printf("Enter the units Consumed : ");
-        String units_s=sc.nextLine();
-        while(!ck(units_s)){
-            System.out.printf("Units should be an Integer.\nEnter units Consumed : ");
-            units_s=sc.nextLine();
+        String units_s;
+        int units_c;
+        while(true){
+            System.out.printf("Enter the units Consumed : ");
+            units_s=sc.nextLine().trim();
+
+            if(!ck(units_s)){
+                System.out.printf("Units should be an Integer.\n");
+                continue;
+            }
+            try{
+                units_c=Integer.parseInt(units_s);
+                break;
+            }
+            catch(NumberFormatException e){
+                System.out.println("Integer is too long.");
+            }
         }
-        int units_c=Integer.parseInt(units_s);
+        
         double charge=calculateCharge(units_c);
         double tax=calculateTax(charge);
         double total_charge=generateTotalBill(units_c);
