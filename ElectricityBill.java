@@ -21,17 +21,29 @@ public class ElectricityBill{
     public static double generateTotalBill(int units){
         return calculateCharge(units)+(calculateTax(calculateCharge(units)));
     }
+
+    public static Boolean ck(String s){
+        for(char i :s.toCharArray()){
+            if(!Character.isDigit(i)){
+                return false;
+            }
+        }
+        return true;
+    }
     public static void main(String[] args){
         Scanner sc=new Scanner(System.in);
         System.out.printf("Enter the units Consumed : ");
-        int units_c=sc.nextInt();
+        String units_s=sc.nextLine();
+        while(!ck(units_s)){
+            System.out.printf("Units should be an Integer.\nEnter units Consumed : ");
+            units_s=sc.nextLine();
+        }
+        int units_c=Integer.parseInt(units_s);
         double charge=calculateCharge(units_c);
         double tax=calculateTax(charge);
         double total_charge=generateTotalBill(units_c);
-        System.out.println("Energy charged : "+charge);
+        System.out.println("\nEnergy charged : "+charge);
         System.out.println("Tax : "+tax);
         System.out.println("Final bill amount : "+total_charge);
-
-
     }
 }
